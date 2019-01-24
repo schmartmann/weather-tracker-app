@@ -1,22 +1,43 @@
+import pry from 'pryjs'
+import * as storeAssistant from './store-helpers';
 import { Measurement } from './measurement';
 import { HttpError } from '../errors';
 
-/**
- * Add new measurement
- * @param {Measurement} measurement to be added
- */
-export function add( measurement ) {
-  console.log( measurement )
-  // throw new HttpError( 501 );
-}
+const measurementsStore = [];
 
-/**
- * Get existing measurement
- * @param {Date} timestamp when measurement was taken
- * @returns {Measurement} measurement for the particular date
- */
+// /**
+//  * Add new measurement
+//  * @param {Measurement} measurement to be added
+//  */
+//
+export function add ( measurement ) {
+  var isDuplicateRecord = storeAssistant.noDuplicateExists( measurement, measurementsStore );
+
+  if ( !isDuplicateRecord ) {
+    measurement = storeAssistant.addMeasurement( measurement, measurementsStore );
+    return measurement;
+  }
+  else {
+    throw new HttpError( 409 );
+  }
+  throw new HttpError( 501 );
+
+};
+
+// /**
+//  * Get existing measurement
+//  * @param {Date} timestamp when measurement was taken
+//  * @returns {Measurement} measurement for the particular date
+//  */
 export function fetch(timestamp) {
-  throw new HttpError(501);
+  var measurement = storeAssistant.browserMeasurementsStore( timestamp, measurementsStore );
+
+  if ( measurement ) {
+    return measurement;
+  }
+  else {
+    throw new HttpError(400);
+  }
 }
 
 /**
