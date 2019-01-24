@@ -1,45 +1,65 @@
-const metricTypes = [
+var metricTypes = [
   {
     name: 'timestamp', dataType: 'Date'
   },
   {
-    name: 'temperature', dataType: 'Number'
+    name: 'temperature', dataType: 'Float'
   },
   {
-    name: 'dewPoint', dataType: 'Number'
+    name: 'dewPoint', dataType: 'Float'
   },
   {
-    name: 'precipitation', dataType: 'Number'
+    name: 'precipitation', dataType: 'Float'
   }
 ];
 
-export function assignMeasurementMetrics( measurement ) {
+export function assignMeasurementMetrics( measurement, metrics ) {
   metricTypes.forEach(
     metricType => {
       const { name, dataType } = metricType;
 
-      if ( metricIsPresent( measurement, name ) ) {
-        var value = getMetric( measurement, name );
-        value = constructMetric( value, dataType );
-        measurement.setMetric( name, value );
-      }
-      else {
-        measurement.setMetric( name, null );
-      }
+      if ( !metricAlreadyAssigned( measurement, name ) ) {
+        var valueFromMetrics = getValueFromMetrics( metrics, name );
+        var value = castMetric( valueFromMetrics, dataType );
 
-      return measurement;
+        measurement[ name ] = value;
+      }
     }
-  );
+  )
 };
 
-const metricIsPresent = ( measurement, key ) => {
-  measurement.metrics.has( key )
+function metricAlreadyAssigned( measurement, name ) {
+  return measurement.hasOwnProperty( name );
 };
 
-const getMetric = ( measurement, key ) => {
-  measurement.metrics.get( key )
+function metricIsPresent( metrics, name ) {
+  return metrics.hasOwnProperty( name );
 };
 
-const constructMetric = ( value, dataType ) => {
-  eval( `new ${ dataType }(${ value })` )
-}
+function getValueFromMetrics( metrics, name ) {
+  var value = null;
+
+  if ( metricIsPresent( metrics, name ) ) {
+    value = metrics[ name ];
+  }
+
+  return value;
+};
+
+function castMetric( value, dataType ) {
+  if ( typeof value !== null ) {
+    if ( dataType === 'Date' ) {
+      value = new Date( value );
+    }
+    else if ( dataType === 'Float' ) {
+      value = parseFloat( value );
+    }
+  }
+
+  return value;
+};
+
+function assignMetricToMeasurement( measurement, name, value ) {
+  measurement.setMetric( name, value );
+  return measurement;
+};

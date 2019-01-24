@@ -1,5 +1,8 @@
 /**
  * @property {Date} timestamp
+ * @property {Number} temperature
+ * @property {Number} dewPoint
+ * @property {Number} precipitation
  */
 export class Measurement {
   constructor() {
@@ -22,4 +25,4 @@ export class Measurement {
   getMetric(name) {
     return this.metrics.get(name);
   }
-}
+};

@@ -1,6 +1,6 @@
 import express from 'express';
 import pry from 'pryjs'
-
+import { assignMeasurementMetrics } from './measurement-metrics';
 import * as store from './measurement-store';
 import { Measurement } from './measurement';
 import { HttpError } from '../errors';
@@ -14,6 +14,7 @@ export function register( app ) {
 router.post(
   '/',
   ( req, res ) => {
+
     const measurement = parseMeasurement( req.body );
 
     store.add( measurement );
@@ -33,7 +34,10 @@ router.get(
 
 function parseMeasurement( { timestamp, ...metrics } ) {
   const measurement = new Measurement();
-  measurement.timestamp = new Date(timestamp);
+
+  measurement.timestamp = new Date( timestamp );
+
+  assignMeasurementMetrics( measurement, metrics );
 
   if ( isNaN( measurement.timestamp ) ) throw new HttpError( 400 );
 
@@ -47,7 +51,7 @@ function parseMeasurement( { timestamp, ...metrics } ) {
   }
 
   return measurement;
-}
+};
 
 function serializeMeasurement( measurement ) {
   const out = { timestamp: measurement.timestamp.toISOString() };
@@ -57,4 +61,4 @@ function serializeMeasurement( measurement ) {
   }
 
   return out;
-}
+};
