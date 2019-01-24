@@ -32,11 +32,11 @@
     "babel-core": "^6.25.0",
     "babel-preset-env": "^1.5.2",
     "babel-preset-stage-3": "^6.24.1",
-    "cross-env": "^5.2.0"
+    "cross-env": "^5.2.0",
+    "pry": "^0.8.7"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
-    "express": "^4.15.3",
-    "pryjs": "^1.0.3"
+    "express": "^4.15.3"
   }
 }
