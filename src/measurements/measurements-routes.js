@@ -1,6 +1,4 @@
 import express from 'express';
-import pry from 'pryjs'
-import { assignMeasurementMetrics } from './measurement-metrics';
 import * as store from './measurement-store';
 import { Measurement } from './measurement';
 import { HttpError } from '../errors';
@@ -37,11 +35,10 @@ function parseMeasurement( { timestamp, ...metrics } ) {
 
   measurement.timestamp = new Date( timestamp );
 
-  assignMeasurementMetrics( measurement, metrics );
-
   if ( isNaN( measurement.timestamp ) ) throw new HttpError( 400 );
 
   for ( const metric in metrics ) {
+
     if ( !metrics.hasOwnProperty( metric ) ) continue;
 
     const value = metrics[ metric ];

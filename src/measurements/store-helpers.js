@@ -8,12 +8,16 @@ export const sortStore = ( measurementsStore ) => {
   var sortedStore = measurementsStore.slice( 0 );
   sortedStore.sort( ( itemOne, itemTwo ) => itemOne.timestamp.toISOString() > itemTwo.timestamp.toISOString() );
   return sortedStore;
-}
+};
 
 export const addMeasurement = ( measurement, measurementsStore ) => {
   measurementsStore.push( measurement );
   sortStore( measurementsStore );
   return measurement;
+};
+
+export const timestampIsValid = ( timestamp ) => {
+  return timestamp !== 'Invalid Date';
 }
 
 export const browserMeasurementsStore = ( timestamp, measurementsStore ) => {

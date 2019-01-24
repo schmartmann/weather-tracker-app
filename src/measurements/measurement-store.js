@@ -1,15 +1,14 @@
-import pry from 'pryjs'
 import * as storeAssistant from './store-helpers';
 import { Measurement } from './measurement';
 import { HttpError } from '../errors';
 
 const measurementsStore = [];
 
-// /**
-//  * Add new measurement
-//  * @param {Measurement} measurement to be added
-//  */
-//
+/**
+ * Add new measurement
+ * @param {Measurement} measurement to be added
+ */
+
 export function add ( measurement ) {
   var isDuplicateRecord = storeAssistant.noDuplicateExists( measurement, measurementsStore );
 
@@ -24,21 +23,26 @@ export function add ( measurement ) {
 
 };
 
-// /**
-//  * Get existing measurement
-//  * @param {Date} timestamp when measurement was taken
-//  * @returns {Measurement} measurement for the particular date
-//  */
+/**
+ * Get existing measurement
+ * @param {Date} timestamp when measurement was taken
+ * @returns {Measurement} measurement for the particular date
+ */
 export function fetch(timestamp) {
-  var measurement = storeAssistant.browserMeasurementsStore( timestamp, measurementsStore );
+  if ( storeAssistant.timestampIsValid( timestamp ) ) {
+    var measurement = storeAssistant.browserMeasurementsStore( timestamp, measurementsStore );
 
-  if ( measurement ) {
-    return measurement;
+    if ( measurement ) {
+      return measurement;
+    }
+    else {
+      throw new HttpError(400);
+    }
   }
   else {
-    throw new HttpError(400);
+    throw new HttpError(422);
   }
-}
+};
 
 /**
  * Get the measurements within the given date range
