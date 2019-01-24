@@ -12,9 +12,31 @@ server.use(parseJsonBody());
 // dummy handler so you can tell if the server is running
 // features/01-measurements/03-update-measurement.feature
 // e.g. `curl localhost:8000`
-server.get( '/',
+server.get(
+  '/',
   ( req, res ) => {
     res.send( 'Weather tracker is up and running!\n' );
+  }
+);
+
+server.post(
+  '/measurements',
+  ( req, res ) => {
+    res.send( 'measurements route up' )
+  }
+);
+
+server.get(
+  '/measurements/:timestamp',
+  ( req, res ) => {
+    res.send( 'measures/timestamp up' )
+  }
+)
+
+server.get(
+  '/stats',
+  ( req, res ) => {
+    res.send( 'test route for stats' )
   }
 );
 
