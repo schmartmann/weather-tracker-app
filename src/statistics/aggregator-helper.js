@@ -82,4 +82,4 @@ const getAvg = ( data ) => {
 };
 
 
-const roundedFloat = ( data ) => parseFloat( data ).toFixed( 1 );
+const roundedFloat = ( data ) => parseFloat( data ).toFixed( 1 ).toString();
