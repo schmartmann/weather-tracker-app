@@ -25,7 +25,7 @@ export const addMeasurement = ( measurement, measurementsStore ) => {
   measurementsStore.push( measurement );
 
   sortStore( measurementsStore );
-  
+
   return measurement;
 };
 

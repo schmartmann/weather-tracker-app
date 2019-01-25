@@ -1,6 +1,7 @@
 import * as storeAssistant from './store-helpers';
 import { Measurement } from './measurement';
 import { HttpError } from '../errors';
+import { Stockist } from './stockist';
 
 const measurementsStore = [];
 
@@ -10,15 +11,8 @@ const measurementsStore = [];
  */
 
 export function add ( measurement ) {
-  var isDuplicateRecord = storeAssistant.noDuplicateExists( measurement, measurementsStore );
-
-  if ( !isDuplicateRecord ) {
-    return storeAssistant.addMeasurement( measurement, measurementsStore );
-  }
-  else {
-    throw new HttpError( 409 );
-  }
-  throw new HttpError( 501 );
+  const stockist = new Stockist( measurementsStore );
+  return stockist.addMeasurement( measurement );
 };
 
 /**
@@ -27,19 +21,8 @@ export function add ( measurement ) {
  * @returns {Measurement} measurement for the particular date
  */
 export function fetch( timestamp ) {
-  if ( storeAssistant.timestampIsValid( timestamp ) ) {
-    var measurement = storeAssistant.readMeasurementsStore( timestamp, measurementsStore );
-
-    if ( measurement ) {
-      return measurement;
-    }
-    else {
-      throw new HttpError( 404 );
-    }
-  }
-  else {
-    throw new HttpError( 422 );
-  }
+  const stockist = new Stockist( measurementsStore );
+  return stockist.readMeasurement( timestamp );
 };
 
 /**
@@ -48,19 +31,6 @@ export function fetch( timestamp ) {
  * @param {Date} end Upper bound for the query, exclusive
  */
 export function queryDateRange( from, to ) {
-  var validQuery = storeAssistant.validateQueryDates( from, to );
-
-  if ( validQuery ) {
-    var measurements = storeAssistant.queryMeasurementsStore( from, to, measurementsStore );
-
-    if ( measurements && measurements.length > 0 ) {
-      return measurements;
-    }
-    else {
-      throw new HttpError( 400 );
-    }
-  }
-  else {
-    throw new HttpError( 422 );
-  }
-}
+  const stockist = new Stockist( measurementsStore );
+  return stockist.queryMeasurements( from, to, measurementsStore )
+};
