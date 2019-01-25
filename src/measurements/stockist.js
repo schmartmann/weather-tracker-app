@@ -49,7 +49,7 @@ export class Stockist {
 
       var measurements = this._queryMeasurementsStore();
 
-      if ( measurments && measurements.length > 0 ) {
+      if ( measurements && measurements.length > 0 ) {
         return measurements;
       }
       else {
