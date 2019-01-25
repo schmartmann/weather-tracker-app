@@ -18,7 +18,7 @@ export const addMeasurement = ( measurement, measurementsStore ) => {
 
 export const timestampIsValid = ( timestamp ) => {
   return timestamp !== 'Invalid Date';
-}
+};
 
 export const browserMeasurementsStore = ( timestamp, measurementsStore ) => {
   return measurementsStore.find(
@@ -32,3 +32,19 @@ export const browserMeasurementsStore = ( timestamp, measurementsStore ) => {
     }
   );
 };
+
+export const queryBrowserMeasurementsStore = ( fromDate, toDate, measurementsStore ) => {
+  return measurementsStore.filter(
+    measurement => {
+      const timestamp = measurement.timestamp;
+
+      if ( timestamp >= fromDate && timestamp <= toDate ) {
+        return measurement;
+      }
+    }
+  );
+};
+
+export const validateQueryDates =
+  ( fromDate, toDate ) => fromDate !== 'Invalid Date' &&
+                          toDate !== 'Invalid Date';

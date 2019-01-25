@@ -28,7 +28,7 @@ export function add ( measurement ) {
  * @param {Date} timestamp when measurement was taken
  * @returns {Measurement} measurement for the particular date
  */
-export function fetch(timestamp) {
+export function fetch( timestamp ) {
   if ( storeAssistant.timestampIsValid( timestamp ) ) {
     var measurement = storeAssistant.browserMeasurementsStore( timestamp, measurementsStore );
 
@@ -36,11 +36,11 @@ export function fetch(timestamp) {
       return measurement;
     }
     else {
-      throw new HttpError(400);
+      throw new HttpError( 404 );
     }
   }
   else {
-    throw new HttpError(422);
+    throw new HttpError( 422 );
   }
 };
 
@@ -49,8 +49,20 @@ export function fetch(timestamp) {
  * @param {Date} start Lower bound for the query, inclusive
  * @param {Date} end Upper bound for the query, exclusive
  */
-export function queryDateRange(from, to) {
+export function queryDateRange( from, to ) {
+  var validQuery = storeAssistant.validateQueryDates( from, to );
 
+  if ( validQuery ) {
+    var measurements = storeAssistant.queryBrowserMeasurementsStore( from, to, measurementsStore );
 
-  throw new HttpError(501);
+    if ( measurements && measurements.length > 0 ) {
+      return measurements;
+    }
+    else {
+      throw new HttpError( 400 );
+    }
+  }
+  else {
+    throw new HttpError( 422 );
+  }
 }
