@@ -69,15 +69,21 @@ const getDataValue = ( stat, metricData ) => {
   }
 }
 
-const getMin = ( data ) => data[ 0 ];
+const getMin = ( data ) => roundedFloat( data[ 0 ] );
 
-const getMax = ( data ) => data[ data.length - 1 ];
+const getMax = ( data ) => roundedFloat( data[ data.length - 1 ] );
 
 const getAvg = ( data ) => {
   var sum;
+  var average;
 
   if ( data.length > 0 ) {
     sum = data.reduce( ( itemOne, itemTwo ) => itemOne + itemTwo );
-    return( sum / data.length );
+    average = sum / data.length
+
+    return roundedFloat( average );
   }
 };
+
+
+const roundedFloat = ( data ) => parseFloat( data ).toFixed( 1 );
