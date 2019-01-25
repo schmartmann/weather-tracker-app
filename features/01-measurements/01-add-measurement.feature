@@ -24,13 +24,13 @@ Feature: Add a measurement
       | 27.1        | 20       | 0             |
     Then the response has a status code of 400
 
-    @new
-    Scenario: Cannot add a measurement if timestamp already exists
-    # POST /measurements
+  @new
+  Scenario: Cannot add a measurement whose timestamp already exists
+  # POST /measurements
+    Given I have submitted new measurements as follows:
+      | timestamp                  | temperature | dewPoint | precipitation |
+      | "2015-09-01T16:00:00.000Z" | 27.1        | 16.7     | 0             |
     When I submit a new measurement as follows:
-      | timestamp                  | temperature    | dewPoint | precipitation |
-      | "2015-09-01T16:00:00.000Z" | 27.1           | 16.7     | 0             |
-    And I submit a duplicate measurement as follows:
-      | timestamp                  | temperature    | dewPoint | precipitation |
-      | "2015-09-01T16:00:00.000Z" | 27.1           | 16.7     | 0             |
+      | timestamp                  | temperature | dewPoint | precipitation |
+      | "2015-09-01T16:00:00.000Z" | 27.1        | 16.7     | 0             |
     Then the response has a status code of 409
