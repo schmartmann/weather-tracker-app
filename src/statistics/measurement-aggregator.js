@@ -1,10 +1,7 @@
 import { HttpError } from '../errors';
 import { Measurement } from '../measurements/measurement';
-import {
-  validateParams,
-  pairMetricWithData,
-  pairStatsWithData
-} from './aggregator-helper';
+import { pairMetricWithData, pairStatsWithData } from './aggregator-helper';
+import { validateParams } from './validators';
 
 /**
  * Compute statistics for given measurements
@@ -14,11 +11,14 @@ import {
  * @return {*}
  */
 export function computeStats( measurements, metrics, stats ) {
-  var paramsAreValid = validateParams(  measurements, metrics, stats );
+  var queryParamsAreValid = validateParams(  measurements, metrics, stats );
 
-  if ( paramsAreValid ) {
+  if ( queryParamsAreValid ) {
     var metrics = pairMetricWithData( measurements, metrics );
     var pairedStats = pairStatsWithData( metrics, stats );
     return pairedStats;
+  }
+  else {
+    throw new HttpError( 400 );
   }
 };

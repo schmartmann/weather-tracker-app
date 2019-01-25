@@ -20,7 +20,6 @@ export function add ( measurement ) {
     throw new HttpError( 409 );
   }
   throw new HttpError( 501 );
-
 };
 
 /**

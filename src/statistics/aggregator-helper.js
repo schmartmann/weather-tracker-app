@@ -1,7 +1,3 @@
-export const validateParams = ( measurements, metrics, stats ) => {
-  return measurements.length > 0 && metrics.length > 0 && stats.length > 0;
-};
-
 export const pairMetricWithData = ( measurements, metrics ) => {
   var data = {};
   metrics.forEach( metric => data[ metric ] = getMetricFromMeasurements( measurements, metric ) );
@@ -21,7 +17,7 @@ export const pairStatsWithData = ( metrics, stats ) => {
         ( stat ) => {
           var metricData = metrics[ key ];
           var value = getDataValue( stat, metricData );
-          var paired = [ key, stat, value ];
+          var paired = { metric: key, stat: stat, value: value };
 
           pairedStats.push( paired );
         }
