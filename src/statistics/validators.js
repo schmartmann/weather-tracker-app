@@ -8,6 +8,7 @@ const validateMeasurements = ( measurements ) => measurements && measurements.le
 
 const validateMetrics = ( metrics ) => metrics && metrics.length > 0;
 
+// ensure only valid stat params get queried
 const validQueryStatistics = [
   'min',
   'max',

@@ -13,8 +13,7 @@ export function add ( measurement ) {
   var isDuplicateRecord = storeAssistant.noDuplicateExists( measurement, measurementsStore );
 
   if ( !isDuplicateRecord ) {
-    measurement = storeAssistant.addMeasurement( measurement, measurementsStore );
-    return measurement;
+    return storeAssistant.addMeasurement( measurement, measurementsStore );
   }
   else {
     throw new HttpError( 409 );
@@ -29,7 +28,7 @@ export function add ( measurement ) {
  */
 export function fetch( timestamp ) {
   if ( storeAssistant.timestampIsValid( timestamp ) ) {
-    var measurement = storeAssistant.browserMeasurementsStore( timestamp, measurementsStore );
+    var measurement = storeAssistant.readMeasurementsStore( timestamp, measurementsStore );
 
     if ( measurement ) {
       return measurement;
@@ -52,7 +51,7 @@ export function queryDateRange( from, to ) {
   var validQuery = storeAssistant.validateQueryDates( from, to );
 
   if ( validQuery ) {
-    var measurements = storeAssistant.queryBrowserMeasurementsStore( from, to, measurementsStore );
+    var measurements = storeAssistant.queryMeasurementsStore( from, to, measurementsStore );
 
     if ( measurements && measurements.length > 0 ) {
       return measurements;
