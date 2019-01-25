@@ -38,7 +38,7 @@ export const queryBrowserMeasurementsStore = ( fromDate, toDate, measurementsSto
     measurement => {
       const timestamp = measurement.timestamp;
 
-      if ( timestamp >= fromDate && timestamp <= toDate ) {
+      if ( timestamp >= fromDate && timestamp < toDate ) {
         return measurement;
       }
     }
