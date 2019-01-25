@@ -1,3 +1,6 @@
+import { validateParams } from './validators';
+import { HttpError } from '../errors';
+
 export class Aggregation {
   constructor( measurements, metrics, stats ) {
     this.measurements = measurements;
@@ -7,11 +10,22 @@ export class Aggregation {
   };
 
   buildAggregation() {
-    this._groupMeasurementDataByMetric();
+    var queryParamsAreValid = validateParams(
+      this.measurements,
+      this.metrics,
+      this.stats
+    );
 
-    this._groupStatsWithData();
+    if ( queryParamsAreValid ) {
+      this._groupMeasurementDataByMetric();
 
-    return this.aggregation;
+      this._groupStatsWithData();
+
+      return this.aggregation;
+    }
+    else {
+      throw new HttpError( 400 );
+    }
   };
 
 
