@@ -26,11 +26,20 @@ Feature: Add a measurement
 
   @new
   Scenario: Cannot add a measurement whose timestamp already exists
-  # POST /measurements
-    Given I have submitted new measurements as follows:
-      | timestamp                  | temperature | dewPoint | precipitation |
-      | "2015-09-01T16:00:00.000Z" | 27.1        | 16.7     | 0             |
+    # POST /measurements
+      Given I have submitted new measurements as follows:
+        | timestamp                  | temperature | dewPoint | precipitation |
+        | "2015-09-01T16:00:00.000Z" | 27.1        | 16.7     | 0             |
+      When I submit a new measurement as follows:
+        | timestamp                  | temperature | dewPoint | precipitation |
+        | "2015-09-01T16:00:00.000Z" | 27.1        | 16.7     | 0             |
+      Then the response has a status code of 409
+
+  @new
+  Scenario: Add a measurement with a new metric
+    # POST /measurements
     When I submit a new measurement as follows:
-      | timestamp                  | temperature | dewPoint | precipitation |
-      | "2015-09-01T16:00:00.000Z" | 27.1        | 16.7     | 0             |
-    Then the response has a status code of 409
+      | timestamp                  | temperature | dewPoint | precipitation | atmospheres |
+      | "2015-09-01T16:00:00.000Z" | 27.1        | 16.7     | 0             | 0.9         |
+    Then the response has a status code of 201
+    And the Location header has the path "/measurements/2015-09-01T16:00:00.000Z"

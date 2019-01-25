@@ -41,8 +41,6 @@ function parseMeasurement( { timestamp, ...metrics } ) {
 
     if ( !metrics.hasOwnProperty( metric ) ) continue;
 
-    if ( !validMetric( metric ) ) continue;
-
     const value = metrics[ metric ];
 
     if ( isNaN( value ) ) throw new HttpError( 400 );
@@ -62,15 +60,3 @@ function serializeMeasurement( measurement ) {
 
   return out;
 };
-
-// // ensure only valid properties are persisted
-// const validMetric = ( metric ) => {
-//   const metricTypes = [
-//     'timestamp',
-//     'temperature',
-//     'dewPoint',
-//     'precipitation'
-//   ];
-//
-//   return metricTypes.includes( metric );
-// };
