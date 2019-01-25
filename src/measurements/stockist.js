@@ -30,7 +30,6 @@ export class Stockist {
       this.measurement = this._fetchMeasurementsStore();
 
       if ( this.measurement ) {
-        console.log( 'successfully found', this.measurement );
         return this.measurement;
       }
       else {
