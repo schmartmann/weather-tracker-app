@@ -60,7 +60,7 @@ const getDataValue = ( stat, metricData ) => {
     return getMin( metricData );
   }
 
-  else if ( stat === 'avg' ) {
+  else if ( stat === 'average' ) {
     return getAvg( metricData );
   }
 
