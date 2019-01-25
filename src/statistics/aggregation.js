@@ -109,13 +109,9 @@ export class Aggregation {
   };
 
   _mergeStats( array ) {
-    if ( array.length > 1 ) {
-      array = array.reduce(
-        ( arrayOne, arrayTwo ) => arrayOne.concat( arrayTwo )
-      );
-    }
-
-    return array;
+    return array.reduce(
+      ( arrayOne, arrayTwo ) => arrayOne.concat( arrayTwo )
+    );
   };
 };
 
