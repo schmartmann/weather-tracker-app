@@ -63,14 +63,14 @@ function serializeMeasurement( measurement ) {
   return out;
 };
 
-// ensure only valid properties are persisted
-const validMetric = ( metric ) => {
-  const metricTypes = [
-    'timestamp',
-    'temperature',
-    'dewPoint',
-    'precipitation'
-  ];
-
-  return metricTypes.includes( metric );
-};
+// // ensure only valid properties are persisted
+// const validMetric = ( metric ) => {
+//   const metricTypes = [
+//     'timestamp',
+//     'temperature',
+//     'dewPoint',
+//     'precipitation'
+//   ];
+//
+//   return metricTypes.includes( metric );
+// };
